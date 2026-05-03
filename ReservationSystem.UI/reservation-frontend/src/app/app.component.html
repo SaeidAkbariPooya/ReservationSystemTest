@@ -1,0 +1,52 @@
+<div class="container" style="direction: rtl; font-family: Tahoma; padding: 20px;">
+  <h2>📅 سیستم رزرو منابع اشتراکی</h2>
+
+  <!-- نمایش پیام -->
+  <div *ngIf="message" [class.success]="messageType === 'success'" [class.error]="messageType === 'error'"
+    class="message">
+    {{ message }}
+  </div>
+
+  <!-- لیست منابع و نوبت‌های آزاد امروز -->
+  <div *ngFor="let resource of resourcesAvailability" class="resource-card">
+    <h3>{{ resource.resourceName }} (شناسه: {{ resource.resourceId }})</h3>
+    <div class="free-slots">
+      <strong>⏰ نوبت‌های آزاد امروز:</strong>
+      <ul>
+        <li *ngFor="let slot of resource.freeSlots">
+          {{ slot.startTime | date:'HH:mm' }} تا {{ slot.endTime | date:'HH:mm' }}
+        </li>
+        <li *ngIf="resource.freeSlots.length === 0">هیچ نوبت آزادی امروز وجود ندارد</li>
+      </ul>
+    </div>
+
+    <!-- فرم رزرو برای این منبع -->
+    <div class="reservation-form">
+      <h4>✨ رزرو {{ resource.resourceName }}</h4>
+      <div class="form-group">
+        <label>تاریخ (شمسی):</label>
+        <ngx-persian-datepicker [(ngModel)]="selectedDatePersian" [showTodayButton]="true"
+          [placeholder]="'مثال: 1403/02/15'">
+        </ngx-persian-datepicker>
+      </div>
+      <div class="form-group">
+        <label>ساعت شروع:</label>
+        <input type="time" [(ngModel)]="selectedTime" step="900" />
+      </div>
+      <div class="form-group">
+        <label>مدت (ساعت):</label>
+        <input type="number" [(ngModel)]="durationHours" min="0.5" max="4" step="0.5" />
+        <small>حداکثر ۴ ساعت</small>
+      </div>
+      <button (click)="reserveResource(resource.resourceId)">🚀 ثبت رزرو</button>
+    </div>
+  </div>
+
+  <!-- بخش نمونه لغو رزرو (برای تست) -->
+  <div class="cancel-section">
+    <hr />
+    <h4>❌ لغو یک رزرو نمونه (شناسه 1)</h4>
+    <button (click)="cancelSampleReservation()">لغو رزرو با شناسه 1</button>
+    <p><small>توجه: در صورت نبودن رزرو با شناسه 1، خطا نمایش داده می‌شود.</small></p>
+  </div>
+</div>
