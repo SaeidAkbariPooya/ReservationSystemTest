@@ -26,7 +26,7 @@ namespace ReservationSystem.API.Controllers
             return Ok(new { Message = "رزرو با موفقیت ایجاد شد", ReservationId = reservation.Id });
         }
 
-        [HttpPut("Cancel{id}")]
+        [HttpPatch("Cancel{id}")]
         public async Task<IActionResult> Cancel(int id)
         {
             await _reservationService.CancelReservationAsync(id);
