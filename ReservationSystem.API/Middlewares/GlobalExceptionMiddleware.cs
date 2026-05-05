@@ -41,7 +41,7 @@ namespace ReservationSystem.API.Middlewares
                     response = new
                     {
                         StatusCode = (int)statusCode,
-                        Message = "خطای اعتبارسنجی ورودی",
+                        Message = "???? ?????????? ?????",
                         Errors = validationEx.Errors.Select(e => new { e.PropertyName, e.ErrorMessage })
                     };
                     break;
@@ -66,11 +66,11 @@ namespace ReservationSystem.API.Middlewares
 
                 default:
                     statusCode = HttpStatusCode.InternalServerError;
-                    _logger.LogError(exception, "خطای پیش‌بینی نشده");
+                    _logger.LogError(exception, "???? ???????? ????");
                     response = new
                     {
                         StatusCode = (int)statusCode,
-                        Message = "خطای داخلی سرور. لطفاً با پشتیبانی تماس بگیرید."
+                        Message = "???? ????? ????. ????? ?? ???????? ???? ??????."
                     };
                     break;
             }

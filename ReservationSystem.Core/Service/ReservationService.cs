@@ -3,7 +3,7 @@ using ReservationSystem.Core.DTOs;
 using ReservationSystem.Core.IService;
 using ReservationSystem.Core.Entities;
 using ReservationSystem.Core.Enum;
-using ReservationSystem.Core.Interfaces;
+using ReservationSystem.Core.IRepositories;
 
 
 namespace ReservationSystem.Core.Service

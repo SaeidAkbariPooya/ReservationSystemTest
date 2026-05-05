@@ -1,6 +1,6 @@
 ﻿using ReservationSystem.Core.Entities;
 
-namespace ReservationSystem.Core.Interfaces
+namespace ReservationSystem.Core.IRepositories
 {
     public interface IReservationRepository : IRepository<Reservation>
     {
