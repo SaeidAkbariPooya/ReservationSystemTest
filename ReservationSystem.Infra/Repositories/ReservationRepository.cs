@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ReservationSystem.Core.Entities;
 using ReservationSystem.Core.Enum;
-using ReservationSystem.Core.IRepositories;
+using ReservationSystem.Core.RepositoryInterfaces;
 using ReservationSystem.Infra.Context;
 
 namespace ReservationSystem.Infra.Repositories
