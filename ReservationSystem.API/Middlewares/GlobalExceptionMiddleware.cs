@@ -1,4 +1,4 @@
-using FluentValidation;
+﻿using FluentValidation;
 using System.Net;
 using System.Text.Json;
 
@@ -41,7 +41,7 @@ namespace ReservationSystem.API.Middlewares
                     response = new
                     {
                         StatusCode = (int)statusCode,
-                        Message = "???? ?????????? ?????",
+                        Message = "خطای اعتبارسنجی ورودی",
                         Errors = validationEx.Errors.Select(e => new { e.PropertyName, e.ErrorMessage })
                     };
                     break;
@@ -66,11 +66,11 @@ namespace ReservationSystem.API.Middlewares
 
                 default:
                     statusCode = HttpStatusCode.InternalServerError;
-                    _logger.LogError(exception, "???? ???????? ????");
+                    _logger.LogError(exception, "خطای پیش‌بینی نشده");
                     response = new
                     {
                         StatusCode = (int)statusCode,
-                        Message = "???? ????? ????. ????? ?? ???????? ???? ??????."
+                        Message = "خطای داخلی سرور. لطفاً با پشتیبانی تماس بگیرید."
                     };
                     break;
             }
