@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using ReservationSystem.Core.RepositoryInterfaces;
+using ReservationSystem.Core.IRepositories;
 using ReservationSystem.Infra.Context;
 using System.Linq.Expressions;
 

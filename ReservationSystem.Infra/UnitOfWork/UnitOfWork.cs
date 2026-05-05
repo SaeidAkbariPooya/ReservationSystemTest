@@ -1,5 +1,5 @@
 ﻿using ReservationSystem.Core.Entities;
-using ReservationSystem.Core.RepositoryInterfaces;
+using ReservationSystem.Core.IRepositories;
 using ReservationSystem.Infra.Context;
 using ReservationSystem.Infra.Repositories;
 

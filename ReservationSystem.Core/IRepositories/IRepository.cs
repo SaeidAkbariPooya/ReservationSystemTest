@@ -1,6 +1,6 @@
 ﻿using System.Linq.Expressions;
 
-namespace ReservationSystem.Core.RepositoryInterfaces
+namespace ReservationSystem.Core.IRepositories
 {
     public interface IRepository<T> where T : class
     {

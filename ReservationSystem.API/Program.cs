@@ -6,7 +6,7 @@ using ReservationSystem.Core.IService;
 using ReservationSystem.Core.Mappings;
 using ReservationSystem.Core.Service;
 using ReservationSystem.Core.Validators;
-using ReservationSystem.Core.RepositoryInterfaces;
+using ReservationSystem.Core.IRepositories;
 using ReservationSystem.Infra.Context;
 using ReservationSystem.Infra.UnitOfWork;
 
