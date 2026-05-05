@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+using FluentValidation;
 using System.Net;
 using System.Text.Json;
 
@@ -27,30 +27,56 @@ namespace ReservationSystem.API.Middlewares
             }
         }
 
-        private Task HandleExceptionAsync(HttpContext context, Exception exception)
+        private async Task HandleExceptionAsync(HttpContext context, Exception exception)
         {
             context.Response.ContentType = "application/json";
 
-            var (statusCode, message) = exception switch
-            {
-                ValidationException _ => (HttpStatusCode.BadRequest, "خطای اعتبارسنجی ورودی"),
-                ApplicationException appEx => (HttpStatusCode.BadRequest, appEx.Message),
-                KeyNotFoundException _ => (HttpStatusCode.NotFound, exception.Message),
-                _ => (HttpStatusCode.InternalServerError, "خطای داخلی سرور. لطفاً با پشتیبانی تماس بگیرید.")
-            };
+            HttpStatusCode statusCode;
+            object response;
 
-            if (statusCode == HttpStatusCode.InternalServerError)
-                _logger.LogError(exception, "خطای پیش‌بینی نشده");
+            switch (exception)
+            {
+                case ValidationException validationEx:
+                    statusCode = HttpStatusCode.BadRequest;
+                    response = new
+                    {
+                        StatusCode = (int)statusCode,
+                        Message = "خطای اعتبارسنجی ورودی",
+                        Errors = validationEx.Errors.Select(e => new { e.PropertyName, e.ErrorMessage })
+                    };
+                    break;
+
+                case ApplicationException appEx:
+                    statusCode = HttpStatusCode.BadRequest;
+                    response = new
+                    {
+                        StatusCode = (int)statusCode,
+                        Message = appEx.Message
+                    };
+                    break;
+
+                case KeyNotFoundException _:
+                    statusCode = HttpStatusCode.NotFound;
+                    response = new
+                    {
+                        StatusCode = (int)statusCode,
+                        Message = exception.Message
+                    };
+                    break;
+
+                default:
+                    statusCode = HttpStatusCode.InternalServerError;
+                    _logger.LogError(exception, "خطای پیش‌بینی نشده");
+                    response = new
+                    {
+                        StatusCode = (int)statusCode,
+                        Message = "خطای داخلی سرور. لطفاً با پشتیبانی تماس بگیرید."
+                    };
+                    break;
+            }
 
             context.Response.StatusCode = (int)statusCode;
-            var response = new
-            {
-                StatusCode = (int)statusCode,
-                Message = message,
-                Detail = exception is ValidationException ve ? ve.Data : null
-            };
-
-            return context.Response.WriteAsync(JsonSerializer.Serialize(response));
+            await context.Response.WriteAsync(JsonSerializer.Serialize(response));
         }
     }
 }
